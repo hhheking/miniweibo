@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>通信</title>
+    <script type="text/javascript">
+        var webSocket = new WebSocket("ws://127.0.0.1:8080/chat.html");
+        var sendMsg = function () {
+            var inputElement = document.getElementById('msg');
+            webSocket.send(inputElement.value);
+            inputElement.value = "";
+        } ;
+        var send = function (event) {
+            if(event.keyCode == 13){
+                sendMsg();
+            }
+        };
+        webSocket.onopen = function () {
+            document.getElementById('msg').onkeydown = send;
+            document.getElementById('sendBn').onclick = sendMsg;
+        };
+        webSocket.onmessage = function (event) {
+            var show = document.getElementById('show');
+            show.innerHTML += event.data + "<br/>";
+            show.scrollTop = show.scrollHeight;
+        }
+        webSocket.onclose = function (){
+            document.getElementById('msg').onkeydown = null;
+            document.getElementById('sendBn').onclick = null;
+            console.log("WebSocket已经被关闭。");
+        };
+        function select(x){
+           ;
+        }
+    </script>
+    <style type="text/css">
+        li {list-style: none;}
+        li:hover{display:block;background-color: #0099ff;}
+    </style>
+</head>
+<body>
+
+<div id="friends" style="width: 10%;height: 100px;border: 1px solid #333; text-align: center;float: left">
+    <ul id="list" style="">
+        <li onclick="select(this)">小明</li>
+        <li>小红</li>
+        <li>小刚</li>
+    </ul>
+</div>
+<div style="width:50%;height: 100px;border: 1px solid #333;margin-left:10%;" id="show">
+</div>
+<div style="margin-left: 10%;margin-top: 1%;">
+    <input type="text" size="50%" id="msg" name="msg" placeholder="输入聊天内容"/>
+    <input type="button" value="发送" id="sendBn" name="sendBn"/>
+</div>
+</body>
+</html>
