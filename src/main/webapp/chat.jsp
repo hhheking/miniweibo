@@ -17,24 +17,10 @@
         <a class="back" href="javascript:history.back()"></a>
         <h5 class="tit"id="touser"><%=request.getParameter("toname")%></h5>
         <h5 id="user" style="display: none"><%=request.getParameter("fromname")%></h5>
-        <div class="right">待定</div>
+        <h5 id="picture" style="display: none"><%=request.getParameter("picture")%></h5>
+        <div class="right">资料</div>
     </header>
     <div class="message">
-
-        <div class="send">
-            <div class="time">05/22 06:30</div>
-            <div class="msg">
-                <img src="images/touxiang.png" alt="" />
-                <p><i class="msg_input"></i>你好在不在呀，妹子！</p>
-            </div>
-        </div>
-        <div class="show">
-            <div class="time">05/22 06:30</div>
-            <div class="msg">
-                <img src="images/touxiangm.png" alt="" />
-                <p><i clas="msg_input"></i>你好你好你好</p>
-            </div>
-        </div>
     </div>
     <div class="footer">
         <img src="images/hua.png" alt="" />

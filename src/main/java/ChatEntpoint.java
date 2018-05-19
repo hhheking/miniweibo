@@ -5,18 +5,20 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@ServerEndpoint(value = "/chat.jsp/{touser}")
+@ServerEndpoint(value = "/chat.jsp/{touser}/{picture}")
 public class ChatEntpoint {
     private String user;
     private static final Set<ChatEntpoint> clientSet = new CopyOnWriteArraySet<ChatEntpoint>();
     private Session session;
+    private String picture;
 
     @OnOpen
-    public void start(Session session,@PathParam("touser")String user){
+    public void start(Session session,@PathParam("touser")String user,@PathParam("picture")String picture){
         this.session = session;
         clientSet.add(this);
         this.user = user;
-        System.out.print(user);
+        this.picture = picture;
+        System.out.print(user+" "+picture);
     }
 
     @OnClose
@@ -30,7 +32,7 @@ public class ChatEntpoint {
         for(ChatEntpoint client : clientSet){
             if(client.user.equals(s[1]))
             synchronized (client){
-                client.session.getBasicRemote().sendText(s[0]);
+                client.session.getBasicRemote().sendText(s[0]+"#"+picture);
             }
         }
     }

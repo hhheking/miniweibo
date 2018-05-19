@@ -1,5 +1,4 @@
-
-var webSocket = WebSocket("ws://localhost:8080/chat.jsp/"+$("#user").html());
+var webSocket = WebSocket("ws://localhost:8080/chat.jsp/"+$("#user").html()+"/"+$("#picture").html());
 
 function send(headSrc, str) {
 	var html = "<div class='send'><div class='msg'><img src=" + headSrc + " />" +
@@ -23,7 +22,8 @@ function sj(){
 /*接受消息*/
 webSocket.onopen = function () {
     webSocket.onmessage = function (event) {
-        send("images/touxiangm.png",event.data);
+    	var pic = event.data.split("#");
+        send("/images/"+pic[1]+".png",pic[0]);
     };
 }
 $(function(){
@@ -38,7 +38,7 @@ $(function(){
 	$('.footer p').click(function(){
 		var message = $(this).prev().val();
 		webSocket.send(message + "#"+ $('#touser').html());
-		show("images/touxiangm.png",message);
+		show("images/"+$("#picture").html()+".png",message);
 		$(this).prev().val("");
 	})
 })
