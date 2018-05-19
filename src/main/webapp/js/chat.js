@@ -1,10 +1,9 @@
-function opendiv() {
-	document.getElementById('frind').style.display = "block";
-}
-/*发送消息*/
-function send(headSrc,str){
-	var html="<div class='send'><div class='msg'><img src="+headSrc+" />"+
-	"<p><i class='msg_input'></i>"+str+"</p></div></div>";
+
+var webSocket = WebSocket("ws://localhost:8080/chat.jsp/"+$("#user").html());
+
+function send(headSrc, str) {
+	var html = "<div class='send'><div class='msg'><img src=" + headSrc + " />" +
+		"<p><i class='msg_input'></i>" + str + "</p></div></div>";
 	upView(html);
 }
 /*接受消息*/
@@ -16,10 +15,16 @@ function show(headSrc,str){
 /*更新视图*/
 function upView(html){
 	$('.message').append(html);
-	$('body').animate({scrollTop:$('.message').outerHeight()-window.innerHeight},200)
+	$('body,html').animate({scrollTop:$('.message').outerHeight()-window.innerHeight},200)
 }
 function sj(){
 	return parseInt(Math.random()*10)
+}
+/*接受消息*/
+webSocket.onopen = function () {
+    webSocket.onmessage = function (event) {
+        send("images/touxiangm.png",event.data);
+    };
 }
 $(function(){
 	$('.footer').on('keyup','input',function(){
@@ -31,19 +36,9 @@ $(function(){
 		}
 	})
 	$('.footer p').click(function(){
-		show("./images/touxiangm.png",$(this).prev().val());
-		test();
+		var message = $(this).prev().val();
+		webSocket.send(message + "#"+ $('#touser').html());
+		show("images/touxiangm.png",message);
+		$(this).prev().val("");
 	})
 })
-
-/*测试数据*/
-var arr=['我是小Q','好久没联系了！','你在想我么','怎么不和我说话','跟我聊会天吧'];
-var imgarr=['images/touxiang.png','images/touxiangm.png']
-test()
-function test(){
-	$(arr).each(function(i){
-		setTimeout(function(){
-			send("images/touxiang.png",arr[i])
-		},sj()*500)
-	})
-}
