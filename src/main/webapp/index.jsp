@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
 </head>
 <body>
-<form method="get" action="chat.jsp">
+<form action="chatsocket" method="post">
 收信人<input type="text" name="toname"><br/>
 发信人<input type="text" name="fromname"><br/>
 头像<input type="text" name="picture"><br/>
